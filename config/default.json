@@ -1,3 +1,4 @@
 {
-    "mongoURI": "mongodb+srv://Hunaid:12344321@contactfinder.pwlom.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
+    "mongoURI": "mongodb+srv://Hunaid:12344321@contactfinder.pwlom.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+    "jwtSecret": "secret"
 }
