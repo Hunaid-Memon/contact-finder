@@ -59,9 +59,41 @@ router.post('/', [ auth, [
 // @route   PUT api/contacts/:id
 // @desc    Update a contact
 // @access  Private
+router.put('/:id', auth, async (req, res) => {
+    
+    const { name, email, phone, type } = req.body;
 
-router.put('/:id', (req, res) => {
-    res.send('Update the contact')
+    const contactFields = {};
+
+    if(name) contactFields.name = name;
+    if(email) contactFields.email = email;
+    if(phone) contactFields.phone = phone;
+    if(type) contactFields.type = type;
+
+    try {
+        let contact = await Contact.findById(req.params.id)
+
+        // Check if the contact exist
+        if(!contact) return res.status(404).json({ msg: 'This contact does not exist.' })
+
+        // If the contact exist, then make sure the currently sign in user owns the user
+        if(contact.user.toString() !== req.user.id) {
+            return res.status(401).json({ msg: 'You do not have the correct authorization to update this contact.' });
+        }
+
+        // Update contact if above condition pass
+        contact = await Contact.findByIdAndUpdate(req.params.id,
+            { $set: contactFields },
+            { new: true }
+            );
+
+        // Return the contact update
+        res.json(contact);
+
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send({ msg: 'Server Error' })
+    }
 })
 
 // @route   DELETE api/contacts/:id
