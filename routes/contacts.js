@@ -99,9 +99,29 @@ router.put('/:id', auth, async (req, res) => {
 // @route   DELETE api/contacts/:id
 // @desc    Delete a contact
 // @access  Private
+router.delete('/:id', auth , async (req, res) => {
+    
+    try {
+        let contact = await Contact.findById(req.params.id)
 
-router.delete('/:id', (req, res) => {
-    res.send('Delete the contact')
+        // Check if the contact exist
+        if(!contact) return res.status(404).json({ msg: 'This contact does not exist.' })
+
+        // If the contact exist, then make sure the currently sign in user owns the user
+        if(contact.user.toString() !== req.user.id) {
+            return res.status(401).json({ msg: 'You do not have the correct authorization to update this contact.' });
+        }
+
+        // Find and remove the contact from MongoDB
+        await Contact.findByIdAndRemove(req.params.id)
+
+        // Return a confirmation message
+        res.json({ msg: 'This contact has been removed'});
+
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send({ msg: 'Server Error' })
+    }
 })
 
 module.exports = router;
