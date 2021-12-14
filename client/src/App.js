@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import './App.css';
-import { BrowserRouter as Router, Routes , Route} from 'react-router-dom'
+import { BrowserRouter as Router, Routes , Route , Navigate} from 'react-router-dom'
 import Navbar from './components/layouts/Navbar';
 import Home from './components/pages/Home';
 import About from './components/pages/About';
@@ -10,6 +10,13 @@ import Register from './components/auth/Register';
 import Login from './components/auth/Login';
 import AlertState from './context/alert/AlertState';
 import Alerts from './components/layouts/Alerts';
+import setAuthToken from './utils/setAuthToken';
+import PrivateRoute from './components/routing/PrivateRoute';
+
+
+if(localStorage.token) {
+  setAuthToken(localStorage.token)
+}
 
 const App = () => {
   return (
@@ -22,7 +29,20 @@ const App = () => {
               <div className='container' >
                 <Alerts />
                   <Routes>
-                    <Route exact path="/" element={<Home />} />
+                    {/* <Route
+                        path='/home'
+                        element={
+                          <PrivateRoute>
+                            <Home />
+                          </PrivateRoute>}
+                      /> */}
+
+                    {/* <PrivateRoute path="/" component={Home} /> */}
+
+                    {/* <PrivateRoute exact path="/" element={<Home />} /> */}
+                    {/* <PrivateRoute path="/" element={<Navigate replace to="/home"/>}/> */}
+                    
+                    <Route path="/" element= {<Home />} />
                     <Route exact path="/about" element= {<About />} />
                     <Route exact path="/register" element= {<Register />} />
                     <Route exact path="/login" element= {<Login />} />
