@@ -30,18 +30,23 @@ const App = () => {
                 <Alerts />
                   <Routes>
                     {/* <Route
-                        path='/home'
+                        path='/'
                         element={
                           <PrivateRoute>
                             <Home />
                           </PrivateRoute>}
                       /> */}
 
+                    {/* <Route element={<PrivateRoute/>} >
+                    
+                     <Route path="/" element= {<Home />} />
+
+                    </Route> */}
+
                     {/* <PrivateRoute path="/" component={Home} /> */}
 
                     {/* <PrivateRoute exact path="/" element={<Home />} /> */}
                     {/* <PrivateRoute path="/" element={<Navigate replace to="/home"/>}/> */}
-                    
                     <Route path="/" element= {<Home />} />
                     <Route exact path="/about" element= {<About />} />
                     <Route exact path="/register" element= {<Register />} />

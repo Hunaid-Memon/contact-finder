@@ -1,10 +1,12 @@
 import React, { useState, useContext, useEffect } from 'react';
 import AuthContext from '../../context/auth/authContext';
 import AlertContext from '../../context/alert/alertContext';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation  } from 'react-router-dom';
+
 
 const Login = props => {
     const navigate = useNavigate();
+    const { state } = useLocation();
 
     const authContext = useContext(AuthContext);
     const alertContext = useContext(AlertContext);
@@ -18,6 +20,7 @@ const Login = props => {
         if(isAuthenticated) {
             // history.push('/');
             navigate('/');
+            // navigate(state?.path || "/");
         }
 
         if (error === 'Incorrect password.') {
@@ -43,8 +46,14 @@ const Login = props => {
             setAlert('Please fill the login form', 'danger');
         } else {
             login({email, password})
-        }
     }
+    }
+
+    // const handleLogin = () => {
+    //     login().then(() => {
+    //       navigate(state?.path || "/");
+    //     });
+    //   }
 
     return (
         <div className='form-container'>
